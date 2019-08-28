@@ -25,3 +25,19 @@ def AND(arr1, arr2):
         I.append(min(arr1[i], arr2[i]))
     return I
 
+def groupCategories(IC, W, alpha = 0.0001):
+    categories  = []
+    for i in range(0, len(IC)):
+        a = np.sum(AND(IC[i], W[i]))
+        categories.append(a / (alpha + np.sum(W[i])))
+    return categories
+
+def hadRessonance(IC, W, rho):
+    x   = AND(IC, W)
+    return (sum(x) / sum(IC)) > rho
+
+def learn(IC, W, beta):
+    temp1   = beta * AND(IC, W)
+    temp2   = (1 - beta) * IC
+    return temp1 + temp2
+

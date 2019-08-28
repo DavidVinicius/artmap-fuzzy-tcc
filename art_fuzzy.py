@@ -2,44 +2,56 @@ import numpy as np
 from funcoes import *
 
 v = np.array([
-    [7, 4.5, 6],
-    [2, 3, 9]
+    [0.3, 0.2, 0.1],
+    [0.2, 0.1, 0.1],
+    [0.3, 0.3, 0.2],
+    [0.2, 0.3, 0.3],
+    [0.1, 0.2, 0.3],
 ])
 
 Y     = []
 
 alpha = 0.0001
-p     = 0.5
+rho   = 0.5
 beta  = 1
 
-valueMax = 10
+valueMax = 1
 
 IC = normalize(v, valueMax)
 IC = complement(IC)
 
 W  = np.ones(IC.shape)
-T  = []
+Y  = []
+
+print("Input values\n", IC, "\n")
+print("Weight\n", W, "\n")
 
 for i in range(0, len(IC)):
-    a = np.sum(AND(IC[i], W[i]))
-    T.append(a / (alpha + np.sum(W[i])))
 
-champion      = np.amax(T)
-championIndex = np.argmin(T)
+    categories    = groupCategories(IC, W, alpha)
+    champion      = np.amax(categories)
+    championIndex = np.argmin(categories)
+ 
+    while champion != 0:        
+        if hadRessonance(IC[championIndex], W[championIndex], rho):
+            W[championIndex] = learn(IC[championIndex], W[championIndex], beta)
+            temp                = np.zeros(len(W))
+            temp[championIndex] = 1
+            Y.append(list(temp))
 
-teste = np.sum(AND(IC[championIndex], W[championIndex])) / np.sum(IC[championIndex])
+            print("Recorrência em:", championIndex)
+            print(learn(IC[championIndex], W[championIndex], beta))
+            break
+        else:
+            categories[champion] = 0
+            champion             = np.amax(categories)
+            championIndex = np.argmin(categories)
 
-if teste > p:
-    print("OCORREU RECORRÊNCIA", teste)
-    Y.append(np.zeros(len(IC)))
-    #Y[championIndex] = 1
+print("Categories", categories)
+print("I choose my champion:", champion, "Champion Index", championIndex)
 
-print("I choose my champion:", champion ,championIndex)
-
-print(Y)
-'''
-print(IC)
+#print(categories)
 print("-----")
 print("-----")
 print(W)
-'''
+print(Y)

@@ -1,14 +1,16 @@
 import numpy as np
-from funcoes import *
+from functions import *
 
 v = np.array([
     [0.2, 0.1, 0.1],
     [0.3, 0.2, 0.1],    
     [0.3, 0.3, 0.2],
-    [0.9, 0.9, 0.9],
     [0.2, 0.3, 0.3],
+    [0.1, 0.2, 0.3],
 ])
 
+valueMax = 1
+IC       = layerF0(v, valueMax)
 
 Y     = []
 
@@ -16,16 +18,9 @@ alpha = 0.0001
 rho   = 0.5
 beta  = 1
 
-valueMax = 1
-
-
-IC = normalize(v, valueMax)
-IC = complement(IC)
 
 W  = np.ones(IC.shape)
 Y  = []
-
-#quit()
 
 print("Input values\n", IC, "\n")
 print("Weight\n", W, "\n")
@@ -38,40 +33,36 @@ for i in range(0, len(IC)):
     champion      = max(categories)
     championIndex = categories.index(champion)
     
-    print("categories i=", i, "\n ", categories)
+    print("Loop: i =", i, "\n ")
+    print("Categories:", categories)
     print("Champion:", champion)
 
-    while champion != 0:        
-        if hadRessonance(IC[championIndex], W[championIndex], rho):
-            print("Recorrência!")
+    while champion != 0:                
+        if hadRessonance(IC[i], W[championIndex], rho):
+            print("Teve Ressonância!")
             print("Index:", championIndex)
             print("Pesos antes da atualizacao: ", W[championIndex])
-            print("Entrada", IC[championIndex])
+            print("Entrada", IC[i])
             print()
-            W[championIndex]    = learn(IC[championIndex], W[championIndex], beta)
+            W[championIndex]    = learn(IC[i], W[championIndex], beta)
             
             temp                = np.zeros(len(W))
             temp[championIndex] = 1
             Y.append(list(temp))
 
             print("Atualizado!")
-            print("IC", IC[championIndex])
+            print("IC", IC[i])
             print("W", W[championIndex])            
             print("----------------------")
             break
         else:
-            categories[champion] = 0
-            champion             = np.amax(categories)
-            championIndex        = np.argmin(categories)
+            print("Não teve ressonância")
+            categories[championIndex] = 0
+            champion                  = max(categories)
+            championIndex             = categories.index(champion)
     
-    '''categories    = groupCategories(IC, W, alpha)
-    champion      = max(categories)
-    championIndex = categories.index(champion)'''
-
 #print("Categories", categories)
 print("")
-print("I choose my champion:", champion, "Champion Index", championIndex)
-
 #print(categories)
 print("-----")
 print("Pesos finais")

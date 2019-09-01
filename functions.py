@@ -42,3 +42,10 @@ def learn(IC, W, beta):
     temp2   = (1 - beta) * IC
     return temp1 + temp2
 
+def layerF0(I, valueMax = 0):
+    IC = normalize(I, valueMax)
+    IC = complement(IC)    
+    return IC
+
+def layerF1():
+    pass

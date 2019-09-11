@@ -16,17 +16,39 @@ class ARTFUZZY(ART):
         temp    = np.zeros(len(self.W))
         temp[i] = 1
         self.Y.append(list(temp))
+    
+    def categories(self, alpha = 0.0001):
+        categories  = []
+        for i in range(0, len(self.I)):
+            a       = np.sum(AND(self.I[i], self.W[i]))
+            temp    = round(a / (alpha + np.sum(self.W[i])), 5)
+            categories.append(temp)
+        return categories
+    
+    def hadRessonance(self, IC, W):
+        x   = AND(IC, W)
+        return ((sum(x) / sum(IC)) >= self._rho)
+    
+    def chooseChampion(self):
+        categories      = self.categories(self._alpha)
+        champion        = max(categories)
+        championIndex   = categories.index(champion)
+
+        return {
+            "value": champion,
+            "index": championIndex
+        }
 
     def train(self):        
         
         for i in range(0, len(self.I)):
-    
-            categories    = groupCategories(self.I, self.W, self._alpha)
-            champion      = max(categories)
-            championIndex = categories.index(champion)
+                
+            categories      = self.categories(self._alpha)
+            champion        = max(categories)
+            championIndex   = categories.index(champion)
     
             while champion != 0:                
-                if hadRessonance(self.I[i], self.W[championIndex], self._rho):
+                if self.hadRessonance(self.I[i], self.W[championIndex]):
                     self.W[championIndex]    = self.learn(self.I[i], self.W[championIndex], self._beta)
                     
                     self.activate(championIndex)

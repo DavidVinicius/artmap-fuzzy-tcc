@@ -1,8 +1,9 @@
 import numpy as np
 
 class ART():
-    Y   = []
-    _W  = []
+    Y          = []
+    _W         = []
+    categories = []
     
     def __init__(self, I, alpha = 0.001, rho = 0.5, beta = 1):
         self._alpha = alpha
@@ -32,3 +33,11 @@ class ART():
             self._W = W
         else:
             self._W = np.array(W)
+    
+    def groupCategories(self, IC, W, alpha = 0.0001):
+        categories  = []
+        for i in range(0, len(IC)):
+            a       = np.sum(AND(IC[i], W[i]))
+            temp    = round(a / (alpha + np.sum(W[i])), 5)
+            categories.append(temp)
+        return categories

@@ -2,6 +2,7 @@ import numpy as np
 
 class ART():
     Y          = []
+    Js         = []
     _W         = []
     categories = []
     

@@ -52,6 +52,7 @@ class ARTFUZZY(ART):
                     self.W[championIndex]    = self.learn(self.I[i], self.W[championIndex], self._beta)
                     
                     self.activate(championIndex)
+                    self.Js.append([i, championIndex])
                     
                     break
                 else:                    

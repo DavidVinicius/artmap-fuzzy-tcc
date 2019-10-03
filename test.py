@@ -3,16 +3,25 @@ from PIL import Image
 from src.neural_networks.art_fuzzy import ARTFUZZY
 from src.utils.functions import *
 
-from os import listdir
+import os
 
-path = "C:/Users/ht3000052/Documents/artmap-fuzzy-tcc/imgs/Circulo/"
+path             = os.getcwd()
+circ_imgs_paths  = path+"/imgs/Circulo50x50/"
+rect_imgs_paths  = path+"/imgs/Retangulo50x50/"
 
-imgs_paths = listdir(path)
+list_circ_imgs   = os.listdir(circ_imgs_paths)
+list_rect_imgs   = os.listdir(rect_imgs_paths)
+
+imgs = list_circ_imgs + list_rect_imgs
+
+imgs_paths = [circ_imgs_paths, rect_imgs_paths]
+
 x = []
-for i in imgs_paths:
-    img = Image.open(r"C:/Users/ht3000052/Documents/artmap-fuzzy-tcc/imgs/Circulo/"+i)
-    im  = img.convert("L")
-    x.append(list(im.getdata()))
+for img_path in imgs_paths:
+    for i in imgs:    
+        img = Image.open(img_path+str(i))
+        im  = img.convert("L")
+        x.append(list(im.getdata()))
 
 arr = np.array(x)
 
@@ -21,7 +30,8 @@ IC       = layerF0(arr, valueMax)
 
 print(IC)
 
-r = ARTFUZZY(IC, rho=0.8)
+
+r = ARTFUZZY(IC, rho=0.99)
 r.train()
 
 print()

@@ -5,7 +5,7 @@ from src.neural_networks.art import ART
 class ARTFUZZY(ART):
     
     def __init__(self, I, alpha = 0.001, rho = 0.5, beta = 1):
-        super().__init__(I, alpha = 0.001, rho = 0.5, beta = 1)
+        super().__init__(I, alpha, rho, beta)
                       
     def learn(self, IC, W, beta):
         temp1   = beta * AND(IC, W)

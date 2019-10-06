@@ -30,19 +30,43 @@ IC       = layerF0(arr, valueMax)
 
 print(IC)
 
-
 r = ARTFUZZY(IC, rho = 0.99)
 r.train()
 
 print()
-print(r.W)
-print(r.Js)
+#print(r.W)
+#print(r.Js)
 
-# arr = np.fromiter(iter(im.getdata()), np.uint8)
-# arr.resize(im.height, im.width)
+circ_pesos = []
+rect_pesos = []
 
-# arr ^= 0xFF  # invert
-# inverted_im = Image.fromarray(arr, mode='L')
-# inverted_im.show()
+for i in r.Js:
+    if i[0] < 40 and i[1] not in circ_pesos:
+        circ_pesos.append(i[1])
+    elif i[0] > 40 and i[1] not in rect_pesos:
+        rect_pesos.append(i[1])
 
-quit()
+print(circ_pesos)
+print(rect_pesos)
+
+P  = 0
+FN = 0
+FP = 0
+N  = 0
+
+for i in r.Js:
+    if i[0] < 40:
+        if i[1] in circ_pesos:
+            P += 1
+        else:
+            FN += 1
+    else:
+        if i[1] in rect_pesos:
+            FP += 1
+        else:
+            N += 1
+print('Positivo: '+str(P)+'\nNegativo: '+str(N)+'\nFalso Positivo: '+str(FP)+'\nFalso Negativo: '+str(FN))
+
+print('Taxa de acerto: ', ((P+N)/40)*100)
+
+ 

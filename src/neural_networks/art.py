@@ -12,6 +12,12 @@ class ART():
         self._beta  = beta
         self.setI(I)  
         self.setW(np.ones(self.I.shape))
+
+    def AND(self, arr1, arr2):
+        I = []
+        for i in range(0, len(arr1)):
+            I.append(min(arr1[i], arr2[i]))
+        return I
     
     @property
     def I(self):

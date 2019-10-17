@@ -1,5 +1,4 @@
 import numpy as np
-from src.utils.functions import *
 from src.neural_networks.art import ART
 
 class ARTFUZZY(ART):
@@ -8,7 +7,7 @@ class ARTFUZZY(ART):
         super().__init__(I, alpha, rho, beta)
                       
     def learn(self, IC, W, beta):
-        temp1   = beta * AND(IC, W)
+        temp1   = beta * self.AND(IC, W)
         temp2   = (1 - beta) * IC
         return temp1 + temp2
 
@@ -20,13 +19,13 @@ class ARTFUZZY(ART):
     def categories(self, alpha = 0.0001):
         categories  = []
         for i in range(0, len(self.I)):
-            a       = np.sum(AND(self.I[i], self.W[i]))
+            a       = np.sum(self.AND(self.I[i], self.W[i]))
             temp    = round(a / (alpha + np.sum(self.W[i])), 5)
             categories.append(temp)
         return categories
     
     def hadRessonance(self, IC, W):
-        x   = AND(IC, W)
+        x   = self.AND(IC, W)
         return ((sum(x) / sum(IC)) >= self._rho)
     
     def chooseChampion(self):

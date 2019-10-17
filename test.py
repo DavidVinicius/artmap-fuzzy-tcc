@@ -65,8 +65,8 @@ for i in r.Js:
             FP += 1
         else:
             N += 1
-print('Positivo: '+str(P)+'\nNegativo: '+str(N)+'\nFalso Positivo: '+str(FP)+'\nFalso Negativo: '+str(FN))
 
+print('Positivo: '+str(P)+'\nNegativo: '+str(N)+'\nFalso Positivo: '+str(FP)+'\nFalso Negativo: '+str(FN))
 print('Taxa de acerto: ', ((P+N)/40)*100)
 
  

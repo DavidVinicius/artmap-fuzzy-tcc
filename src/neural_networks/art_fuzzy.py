@@ -6,9 +6,9 @@ class ARTFUZZY(ART):
     def __init__(self, I, alpha = 0.001, rho = 0.5, beta = 1):
         super().__init__(I, alpha, rho, beta)
                       
-    def learn(self, IC, W, beta):
-        temp1   = beta * self.AND(IC, W)
-        temp2   = (1 - beta) * IC
+    def learn(self, IC, W):
+        temp1   = self._beta * self.AND(IC, W)
+        temp2   = (1 - self._beta) * IC
         return temp1 + temp2
 
     def activate(self, i):
@@ -48,7 +48,7 @@ class ARTFUZZY(ART):
     
             while champion != 0:                
                 if self.hadRessonance(self.I[i], self.W[championIndex]):
-                    self.W[championIndex]    = self.learn(self.I[i], self.W[championIndex], self._beta)
+                    self.W[championIndex]    = self.learn(self.I[i], self.W[championIndex])
                     
                     self.activate(championIndex)
                     self.Js.append([i, championIndex])

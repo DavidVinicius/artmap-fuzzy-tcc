@@ -6,8 +6,8 @@ from src.utils.functions import *
 import os
 
 path             = os.getcwd()
-circ_imgs_paths  = path+"/imgs/Retangulo5x5/"
-rect_imgs_paths  = path+"/imgs/Circulo5x5/"
+circ_imgs_paths  = path+"/imgs/Retangulo100x100/"
+rect_imgs_paths  = path+"/imgs/Circulo100x100/"
 
 list_circ_imgs   = os.listdir(circ_imgs_paths)
 list_rect_imgs   = os.listdir(rect_imgs_paths)
@@ -30,12 +30,12 @@ IC       = layerF0(arr, valueMax)
 
 print(IC)
 
-r = ARTFUZZY(IC, rho = 0.99)
+r = ARTFUZZY(IC, rho = 0.95)
 r.train()
 
 print()
 #print(r.W)
-#print(r.Js)
+print(r.Js)
 
 circ_pesos = []
 rect_pesos = []

@@ -24,39 +24,63 @@ WAB   = np.ones([AC.shape[0], BC.shape[0]])
 
 rhoA  = 0.5
 rhoB  = 0.9
-
 rhoAB = 0.6
 
 ArtA = ARTFUZZY(AC, rho=rhoA)
 ArtB = ARTFUZZY(BC, rho=rhoB)
 
-categoriesB  = ArtB.categories()
-championB    = ArtB.chooseChampion()
+for i in range(0, len(ArtB.I)):
 
-print(championB.get("value"))
-print()
+    categoriesB  = ArtB.categories()
+    championB    = ArtB.chooseChampion()
 
-championIndex = championB.get("index")
+    print(championB.get("value"))
+    print()
 
-if ArtB.hadRessonance(ArtB.I[0], ArtB.W[championIndex]):
-    ArtB.W[championIndex] = ArtB.learn(ArtB.I[0], ArtB.W[championIndex])
+    championIndexB = championB.get("index")
+
+    if ArtB.hadRessonance(ArtB.I[i], ArtB.W[championIndexB]):
+        ArtB.W[championIndexB] = ArtB.learn(ArtB.I[i], ArtB.W[championIndexB])
+                        
+        ArtB.activate(championIndexB)
+        ArtB.Js.append([i, championIndexB])
+        #print(ArtB.Js, ArtB.Y)
+        #print(ArtB.W)
+        for j in range(0, len(ArtA.I)):
+        
+            categoriesA   = ArtA.categories()
+            championA     = ArtA.chooseChampion()
+            championIndex = championA.get("index")
+            
+
+            if ArtA.hadRessonance(ArtA.I[j], ArtA.W[championIndex]):        
+                ArtA.activate(championIndex)
+                ArtA.Js.append([j, championIndex])
+                
+                
+                if hadRessonance(ArtB.Y[championIndexB], WAB[championIndexB], rhoAB):        
                     
-    ArtB.activate(championIndex)
-    ArtB.Js.append([0, championIndex])
-    print(ArtB.Js, ArtB.Y)
-    print(ArtB.W)
-    
-    categoriesA   = ArtA.categories()
-    championA     = ArtA.chooseChampion()
-    championIndex = championA.get("index")
+                    ArtA.W[championIndex] = ArtA.learn(ArtA.I[j], ArtA.W[championIndex])                    
+                    WAB[championIndexB] = activate(WAB, championIndex)
+                    print()
+                    print(WAB)
+                else:
+                    categoriesA[championIndex]  = 0
+                    champion                    = max(categoriesA)
+                    championIndex               = categoriesA.index(champion)
+                    x                           = AND(ArtB.Y[championIndexB], WAB[championIndexB])
+                    temp                        = (sum(x) / sum(ArtB.Y[championIndexB]))
 
-    if ArtA.hadRessonance(ArtA.I[0], ArtA.W[championIndex]):
-        ArtA.W[championIndex] = ArtA.learn(ArtA.I[0], ArtA.W[championIndex])
-                    
-        ArtA.activate(championIndex)
-        ArtA.Js.append([0, championIndex])
-        print()
-        print(ArtA.Js, ArtA.Y)
-        print(ArtA.W)
+                    ArtA._rho                   += 0.01
+            else:
+                categoriesA[championIndex]  = 0
+                champion                    = max(categoriesA)
+                championIndex               = categoriesA.index(champion)
+
+    else:
+        categoriesB[championIndexB] = 0
+        champion                    = max(categoriesB)
+        championIndexB              = categoriesB.index(champion)
+
 
 

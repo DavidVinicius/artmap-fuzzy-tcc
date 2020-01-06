@@ -47,5 +47,10 @@ def layerF0(I, valueMax = 0):
     IC = complement(IC)    
     return IC
 
+def activate(W, i):
+    temp    = np.zeros(len(W))
+    temp[i] = 1
+    return list(temp)
+
 def layerF1():
     pass

@@ -28,7 +28,7 @@ IC       = layerF0(v, valueMax)
 Y     = []
 
 alpha = 0.0001
-rho   = 0.5
+rho   = 0.9
 beta  = 1
 
 

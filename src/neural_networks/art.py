@@ -44,7 +44,15 @@ class ART():
     def groupCategories(self, IC, W, alpha = 0.0001):
         categories  = []
         for i in range(0, len(IC)):
-            a       = np.sum(AND(IC[i], W[i]))
+            a       = np.sum(self.AND(IC[i], W[i]))
             temp    = round(a / (alpha + np.sum(W[i])), 5)
             categories.append(temp)
         return categories
+    
+    def indexOfChampion(self, categories):
+        championB      = max(categories)
+        
+        return categories.index(championB)
+    
+    def valueOfChampion(self, categories):
+        return max(categories)

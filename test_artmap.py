@@ -22,3 +22,9 @@ OUTPUT  = layerF0(B, 1)
 ArtMapFuzzy = ARTMAPFUZZY(INPUT, OUTPUT, rhoINPUT=0.5, rhoOUTPUT=0.9, rho=0.6)
 
 ArtMapFuzzy.train()
+
+
+print("-----------------------RESULT")
+print(ArtMapFuzzy.WAB)
+print(ArtMapFuzzy.ArtA.W)
+print(ArtMapFuzzy.ArtB.W)

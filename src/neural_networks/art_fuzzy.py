@@ -3,6 +3,9 @@ from src.neural_networks.art import ART
 
 class ARTFUZZY(ART):
     
+    championIndex = 0
+    championValue = 0    
+
     def __init__(self, I, alpha = 0.001, rho = 0.5, beta = 1):
         super().__init__(I, alpha, rho, beta)
                       
@@ -37,24 +40,34 @@ class ARTFUZZY(ART):
             "value": champion,
             "index": championIndex
         }
-
-    def train(self):        
-        
-        for i in range(0, len(self.I)):
-                
-            categories      = self.categories(self._alpha)
-            champion        = max(categories)
-            championIndex   = categories.index(champion)
     
-            while champion != 0:                
-                if self.hadRessonance(self.I[i], self.W[championIndex]):
-                    self.W[championIndex]    = self.learn(self.I[i], self.W[championIndex])
-                    
-                    self.activate(championIndex)
-                    self.Js.append([i, championIndex])
-                    
-                    break
-                else:                    
-                    categories[championIndex] = 0
-                    champion                  = max(categories)
-                    championIndex             = categories.index(champion)
+    def getIndexOfChampion(self):
+        return self.championIndex
+    
+    def getValueOfChampion(self):
+        return self.championValue
+
+    def train(self):                
+        for i in range(0, len(self.I)):                                
+            self.match(i)
+    
+    def match(self, indexOfInput):
+        categories      = self.categories(self._alpha)
+        champion        = max(categories)
+        championIndex   = categories.index(champion)
+
+        while champion != 0:                
+            if self.hadRessonance(self.I[indexOfInput], self.W[championIndex]):
+                self.W[championIndex]    = self.learn(self.I[indexOfInput], self.W[championIndex])
+                
+                self.activate(championIndex)
+                self.Js.append([indexOfInput, championIndex])
+
+                self.championIndex = championIndex
+                self.championValue = champion
+                
+                break
+            else:                    
+                categories[championIndex] = 0
+                champion                  = self.valueOfChampion(categories)
+                championIndex             = self.indexOfChampion(categories)

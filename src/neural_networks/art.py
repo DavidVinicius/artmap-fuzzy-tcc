@@ -40,6 +40,14 @@ class ART():
             self._W = W
         else:
             self._W = np.array(W)
+
+    def hadRessonance(self, IC, W, rho):
+        x   = self.AND(IC, W)
+        return ((sum(x) / sum(IC)) >= rho)
+    
+    def vigilanceValue(self, IC, W):
+        x   = self.AND(IC, W)
+        return (sum(x) / sum(IC))
     
     def groupCategories(self, IC, W, alpha = 0.0001):
         categories  = []

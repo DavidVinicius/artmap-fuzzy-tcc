@@ -6,8 +6,8 @@ from src.utils.functions import *
 import os
 
 path             = os.getcwd()
-circ_imgs_paths  = path+"/imgs/Retangulo100x100/"
-rect_imgs_paths  = path+"/imgs/Circulo100x100/"
+circ_imgs_paths  = path+"/imgs/Retangulo10x10/"
+rect_imgs_paths  = path+"/imgs/Circulo10x10/"
 
 list_circ_imgs   = os.listdir(circ_imgs_paths)
 list_rect_imgs   = os.listdir(rect_imgs_paths)

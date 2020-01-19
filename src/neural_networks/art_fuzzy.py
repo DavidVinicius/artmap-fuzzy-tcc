@@ -3,8 +3,9 @@ from src.neural_networks.art import ART
 
 class ARTFUZZY(ART):
     
-    championIndex = 0
-    championValue = 0    
+    championIndex      = 0
+    championValue      = 0    
+    categoriesArray    = []
 
     def __init__(self, I, alpha = 0.001, rho = 0.5, beta = 1):
         super().__init__(I, alpha, rho, beta)
@@ -19,9 +20,9 @@ class ARTFUZZY(ART):
         temp[i] = 1
         self.Y.append(list(temp))
     
-    def categories(self, alpha = 0.0001):
-        categories  = []
-        for i in range(0, len(self.I)):
+    def categories(self, alpha = 0.001):
+        categories  = []        
+        for i in range(0, len(self.I)):                                    
             a       = np.sum(self.AND(self.I[i], self.W[i]))
             temp    = round(a / (alpha + np.sum(self.W[i])), 5)
             categories.append(temp)
@@ -71,3 +72,20 @@ class ARTFUZZY(ART):
                 categories[championIndex] = 0
                 champion                  = self.valueOfChampion(categories)
                 championIndex             = self.indexOfChampion(categories)
+
+    def searchForChampions(self, indexOfInput):
+        self.categoriesArray  = self.categories(self._alpha)
+        champion              = max(self.categoriesArray)
+        championIndex         = self.categoriesArray.index(champion)
+
+        while champion != 0:                
+            if self.hadRessonance(self.I[indexOfInput], self.W[championIndex]):
+
+                self.championIndex = championIndex
+                self.championValue = champion
+
+                break
+            else:                    
+                self.categoriesArray[championIndex] = 0
+                champion                  = self.valueOfChampion(self.categoriesArray)
+                championIndex             = self.indexOfChampion(self.categoriesArray)

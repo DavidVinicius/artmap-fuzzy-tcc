@@ -79,46 +79,26 @@ class ARTMAPFUZZY(ART):
                     championIndexA             = self.indexOfChampion(categories)
     
     
-    def train2(self):
-        for i in range(0, len(self.WAB)):
-            self.ArtB.searchForChampions(i)
-            self.ArtA.searchForChampions(i)
-
-            championIndexB = self.ArtB.getIndexOfChampion()
-            championIndexA = self.ArtA.getIndexOfChampion()
-
-            champion       = self.ArtA.getValueOfChampion()
-
-            self.ArtB.activate(championIndexB)
-            self.ArtA.activate(championIndexA)
-
-            while champion != 0:
-                if self.hadRessonance(self.ArtB.Y[championIndexB], self.WAB[championIndexA], self.rho):
-                    
-                    self.ArtA.W[championIndexA] = self.ArtA.learn(self.ArtA.I[i], self.ArtA.W[championIndexA])                        
-                    self.ArtB.W[championIndexB] = self.ArtB.learn(self.ArtB.I[i], self.ArtB.W[championIndexB])                        
-                    
-                    self.WAB[championIndexA]    = self.activate(self.WAB[championIndexA], championIndexB)            
-                    break
-                else:
-                    self.ArtA.categoriesArray[championIndexA] = 0                
-                    champion                  = self.valueOfChampion(self.ArtA.categoriesArray)
-                    championIndexA            = self.indexOfChampion(self.ArtA.categoriesArray)                
-
-                    x                          = self.AND(self.ArtA.I[i], self.ArtA.W[championIndexA])
-                    newRho                     = (sum(x) / sum(self.ArtA.I[i]))
-                    print(newRho, "NOVO", x, self.ArtA.I[i])
-
-                    self.ArtA._rho            += 0.01
-
-
     def activate(self, W, i):
         temp    = np.zeros(len(W))
         temp[i] = 1
         return list(temp)
 
-    def matchTracking(self):
-        pass
+    def test(self, INPUT, rho):
+        categories      = self.ArtA.categories()            
+        championA       = self.valueOfChampion(categories)
+        championIndexA  = self.indexOfChampion(categories)
+
+        while championA != 0:
+            if self.hadRessonance(INPUT, self.ArtA.I[championIndexA], rho):
+                return self.WAB[championIndexA]
+            else:
+                categories[championIndexA] = 0                
+                championA                  = self.valueOfChampion(categories)
+                championIndexA             = self.indexOfChampion(categories)
+        
+        return -1
+
             
 
     

@@ -57,7 +57,7 @@ class ARTFUZZY(ART):
         champion        = max(categories)
         championIndex   = categories.index(champion)
 
-        while champion != 0:                
+        while champion != 0:
             if self.hadRessonance(self.I[indexOfInput], self.W[championIndex]):
                 self.W[championIndex]    = self.learn(self.I[indexOfInput], self.W[championIndex])
                 

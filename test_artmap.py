@@ -60,8 +60,16 @@ testes = [
         [1, 1, 0, 0],
 ]
 
+Map = {
+    "1000": "True",
+    "0010": "False"
+}
+
 for test in testes:
     print("INPUT TEST:", test)
-    print("SAIDA", ArtMapFuzzy.test(test, 0.9), "\n")
+    output = ArtMapFuzzy.testMapped(test, 0.7)
+    if output != -1:
+        print(Map.get(output.get("id")))
+        print("SAIDA", output , "\n")
 
 

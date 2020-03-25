@@ -13,6 +13,31 @@ class ART():
         self.setI(I)  
         self.setW(np.ones(self.I.shape))
 
+    @staticmethod
+    def layerF0(I, valueMax = 0):
+        IC = ART.normalize(I, valueMax)
+        IC = ART.complement(IC)    
+        return IC
+    
+    @staticmethod
+    def normalize(arr, valueMax = 0):
+        if valueMax == 0:
+            valueMax = arr.max()
+
+        I  = np.divide(arr, valueMax)
+        return I
+    
+    @staticmethod
+    def complement(I):
+        IC = np.subtract(1, I)
+        A  = []
+
+        for i in range(0, len(I)):            
+            A.append( np.concatenate((I[i], IC[i])) )
+        
+        return np.array(A)
+        
+
     def AND(self, arr1, arr2):
         I = []
         for i in range(0, len(arr1)):

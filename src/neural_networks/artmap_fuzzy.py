@@ -14,8 +14,7 @@ class ARTMAPFUZZY(ART):
         self.ArtA = ARTFUZZY(INPUT, rho=rhoINPUT)
         self.ArtB = ARTFUZZY(OUTPUT, rho=rhoOUTPUT)
         self.rho  = rho        
-        self.WAB  = np.ones([INPUT.shape[0], OUTPUT.shape[0]])
-    
+        self.WAB  = np.ones([INPUT.shape[0], OUTPUT.shape[0]])    
 
     def train(self):
         print("Treinando ...")
